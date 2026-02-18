@@ -1,0 +1,12 @@
+# Swagger UI is available at GET /api/docs (see config/routes.yaml)
+nelmio_api_doc:
+    documentation:
+        info:
+            title: Inspector Scheduling API
+            description: REST API for inspectors to claim jobs, schedule, complete and add assessments. Timezones: Europe/Madrid, America/Mexico_City, Europe/London. Datetimes in request/response use inspector timezone (ISO 8601).
+            version: 1.0.0
+    areas:
+        path_patterns:
+            - ^/api(?!/doc$)(?!/docs$)  # document /api routes only, exclude doc endpoints
+    models:
+        use_jms: false

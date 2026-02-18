@@ -1,0 +1,9 @@
+/vendor/
+/.env.local
+/.env.local.php
+/.env.*.local
+/var/
+/public/bundles/
+/config/secrets/prod/prod.decrypt.private.php
+.phpunit.result.cache
+.phpunit.cache
