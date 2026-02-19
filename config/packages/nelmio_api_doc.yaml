@@ -1,11 +1,9 @@
 nelmio_api_doc:
     documentation:
         info:
-            title: 'Inspector Scheduling REST API'
-            description: 'REST API for managing auditors, jobs, and assignments. Timezones: Europe/Madrid, America/Mexico_City, Europe/London. Datetimes stored in UTC; request/response use ISO 8601.'
+            title: 'Inspectors API'
             version: '1.0.0'
-        path_patterns:
-            - ^/api(?!/doc)
-        servers:
-            - url: 'http://localhost:8000'
-              description: 'Local development server'
+        areas:
+            default:
+                path_patterns:
+                    - ^/api(?!/doc)

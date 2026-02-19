@@ -2,17 +2,17 @@
 
 namespace App\Repository;
 
-use App\Entity\Inspector;
+use App\Entity\JobAssignment;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Inspector>
+ * @extends ServiceEntityRepository<JobAssignment>
  */
-class InspectorRepository extends ServiceEntityRepository
+class JobAssignmentRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Inspector::class);
+        parent::__construct($registry, JobAssignment::class);
     }
 }

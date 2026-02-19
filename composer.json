@@ -9,14 +9,16 @@
         "doctrine/doctrine-migrations-bundle": "^3.3",
         "doctrine/orm": "^3.0",
         "nelmio/api-doc-bundle": "^4.0",
-        "zircote/swagger-php": "^4.11",
+        "symfony/asset": "^7.4",
         "symfony/console": "^6.4|^7.0",
         "symfony/dotenv": "^6.4|^7.0",
         "symfony/framework-bundle": "^6.4|^7.0",
         "symfony/runtime": "^6.4|^7.0",
         "symfony/serializer": "^6.4|^7.0",
+        "symfony/twig-bundle": "^7.4",
         "symfony/validator": "^6.4|^7.0",
-        "symfony/yaml": "^6.4|^7.0"
+        "symfony/yaml": "^6.4|^7.0",
+        "zircote/swagger-php": "^4.11"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^4.3",
