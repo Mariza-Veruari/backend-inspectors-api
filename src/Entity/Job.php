@@ -10,6 +10,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
+/** Inspectable job. Status: OPEN → ASSIGNED → COMPLETED. At most one assignment per job. */
 #[ORM\Entity(repositoryClass: JobRepository::class)]
 #[ORM\Table(name: 'job')]
 class Job

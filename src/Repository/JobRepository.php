@@ -8,6 +8,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
+ * Jobs with optional filter by status (OPEN, ASSIGNED, COMPLETED).
  * @extends ServiceEntityRepository<Job>
  */
 class JobRepository extends ServiceEntityRepository

@@ -6,6 +6,7 @@ use App\Entity\JobAssignment;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
+/** Job assignments; one per job (unique job_id). */
 /**
  * @extends ServiceEntityRepository<JobAssignment>
  */

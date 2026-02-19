@@ -13,6 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
+/** Inspector who can be assigned to jobs. Email is unique; originTimezone used for datetime display. */
 #[ORM\Entity(repositoryClass: AuditorRepository::class)]
 #[ORM\Table(name: 'auditor')]
 #[UniqueEntity(fields: ['email'], message: 'An auditor with this email already exists.')]

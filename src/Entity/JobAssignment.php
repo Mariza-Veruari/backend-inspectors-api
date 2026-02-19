@@ -9,6 +9,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
+/** Links one job to one auditor. Datetimes stored in UTC; scheduledAtUtc required, completedAtUtc set on complete. */
 #[ORM\Entity(repositoryClass: JobAssignmentRepository::class)]
 #[ORM\Table(name: 'job_assignment')]
 #[ORM\UniqueConstraint(name: 'unique_job_assignment', columns: ['job_id'])]

@@ -18,6 +18,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
+/** REST API for jobs: list, show, assign (OPEN only), complete (ASSIGNED + matching auditor). */
 #[Route('/api/jobs', name: 'api_jobs_')]
 #[OA\Tag(name: 'Jobs')]
 class JobController extends AbstractController
@@ -71,6 +72,7 @@ class JobController extends AbstractController
             new OA\Response(response: 400, description: 'Invalid status parameter')
         ]
     )]
+    /** GET /api/jobs — List jobs, optional ?status=OPEN|ASSIGNED|COMPLETED. */
     public function list(Request $request): JsonResponse
     {
         $statusParam = $request->query->get('status');
@@ -141,6 +143,7 @@ class JobController extends AbstractController
             new OA\Response(response: 404, description: 'Job not found')
         ]
     )]
+    /** GET /api/jobs/{id} — Job details; includes assignment (and auditor timezone-formatted times) if present. */
     public function show(int $id): JsonResponse
     {
         $job = $this->jobRepository->find($id);
@@ -227,6 +230,7 @@ class JobController extends AbstractController
             new OA\Response(response: 409, description: 'Job cannot be assigned (already assigned or not OPEN)')
         ]
     )]
+    /** POST /api/jobs/{id}/assign — Assign job to auditor. Allowed only when status=OPEN and no assignment yet. */
     public function assign(int $id, Request $request): JsonResponse
     {
         $job = $this->jobRepository->find($id);
@@ -279,6 +283,7 @@ class JobController extends AbstractController
             );
         }
 
+        // Store in UTC; response will show times in auditor's timezone
         $scheduledAtUtc = $scheduledAt->setTimezone(new \DateTimeZone('UTC'));
 
         $assignment = new JobAssignment();
@@ -358,6 +363,7 @@ class JobController extends AbstractController
             new OA\Response(response: 409, description: 'Job cannot be completed (wrong status or wrong auditor)')
         ]
     )]
+    /** POST /api/jobs/{id}/complete — Mark job done. Allowed only when ASSIGNED and auditorId matches assignment. */
     public function complete(int $id, Request $request): JsonResponse
     {
         $job = $this->jobRepository->find($id);
@@ -394,6 +400,7 @@ class JobController extends AbstractController
             );
         }
 
+        // Only the auditor who was assigned may complete
         if ($assignment->getAuditor()->getId() !== (int) $data['auditorId']) {
             return new JsonResponse(
                 ['message' => 'Only the assigned auditor can complete this job'],
@@ -414,6 +421,7 @@ class JobController extends AbstractController
             $completedAt = new \DateTimeImmutable('now');
         }
 
+        // Store completedAt in UTC
         $completedAtUtc = $completedAt->setTimezone(new \DateTimeZone('UTC'));
 
         $assignment->setCompletedAtUtc($completedAtUtc);

@@ -6,6 +6,7 @@ use App\Entity\Auditor;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
+/** Auditors by id or email. */
 /**
  * @extends ServiceEntityRepository<Auditor>
  */

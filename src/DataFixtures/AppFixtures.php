@@ -11,6 +11,7 @@ use App\Enum\JobStatus;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
+/** Loads 3 auditors (Madrid, Mexico City, UK) and 10 open jobs for local/dev use. */
 class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
