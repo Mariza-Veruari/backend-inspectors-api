@@ -2,6 +2,19 @@
 
 Symfony 6+ REST API for managing auditors, jobs, and assignments.
 
+## Database
+
+- **Engine:** SQLite  
+- **File:** `var/data.db` (created on first migrate)  
+- **Tables:** `auditor`, `job`, `job_assignment`  
+
+A **sample database** is included in the repo: `sample-data.db` (3 auditors, 10 open jobs). To use it instead of creating a fresh DB:
+
+- **Windows:** `mkdir var 2>nul & copy sample-data.db var\data.db`
+- **Linux/Mac:** `mkdir -p var && cp sample-data.db var/data.db`
+
+Then start the server; no need to run migrations or fixtures.
+
 ## Setup
 
 1. Install dependencies:
@@ -9,22 +22,19 @@ Symfony 6+ REST API for managing auditors, jobs, and assignments.
 composer install
 ```
 
-2. Create database:
+2. **Option A – Use included sample database:**
 ```bash
-php bin/console doctrine:database:create
+mkdir -p var
+copy sample-data.db var\data.db
 ```
 
-3. Run migrations:
+**Option B – Create database from scratch:**
 ```bash
 php bin/console doctrine:migrations:migrate
-```
-
-4. Load fixtures:
-```bash
 php bin/console doctrine:fixtures:load
 ```
 
-5. Start server:
+3. Start server:
 ```bash
 php -S 127.0.0.1:8000 -t public
 ```
