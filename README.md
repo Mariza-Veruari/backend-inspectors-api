@@ -2,6 +2,21 @@
 
 Symfony 6+ REST API for managing auditors, jobs, and assignments.
 
+## Quick run (same as pre-installed on my machine)
+
+The repo includes a **ready-to-use database** (`sample-data.db`). To run the project the same way it runs on my laptop:
+
+1. **Clone** the repo.
+2. **Install dependencies:** `composer install`
+3. **Use the included database:**
+   - Windows: `mkdir var 2>nul & copy sample-data.db var\data.db`
+   - Linux/Mac: `mkdir -p var && cp sample-data.db var/data.db`
+4. **Start the server:** `php -S 127.0.0.1:8000 -t public`
+
+Then open **http://127.0.0.1:8000/api/doc** for Swagger UI. No migrations or fixtures needed.
+
+---
+
 ## Database
 
 - **Engine:** SQLite  
