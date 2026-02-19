@@ -3,7 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Job;
-use App\Entity\JobStatus;
+use App\Enum\JobStatus;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -18,15 +18,20 @@ class JobRepository extends ServiceEntityRepository
     }
 
     /**
+     * @param JobStatus|null $status
      * @return Job[]
      */
-    public function findOpenJobs(): array
+    public function findByStatus(?JobStatus $status): array
     {
-        return $this->createQueryBuilder('j')
-            ->andWhere('j.status = :status')
-            ->setParameter('status', JobStatus::OPEN)
-            ->orderBy('j.id', 'ASC')
-            ->getQuery()
-            ->getResult();
+        $qb = $this->createQueryBuilder('j');
+        
+        if ($status !== null) {
+            $qb->where('j.status = :status')
+               ->setParameter('status', $status);
+        }
+        
+        return $qb->orderBy('j.createdAt', 'DESC')
+                  ->getQuery()
+                  ->getResult();
     }
 }

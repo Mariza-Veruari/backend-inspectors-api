@@ -1,13 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
+use App\Enum\JobStatus;
 use App\Repository\JobRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: JobRepository::class)]
+#[ORM\Table(name: 'job')]
 class Job
 {
     #[ORM\Id]
@@ -16,18 +19,24 @@ class Job
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private string $title;
+    private ?string $title = null;
 
-    #[ORM\Column(length: 50)]
-    private JobStatus $status = JobStatus::OPEN;
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $description = null;
 
-    /** @var Collection<int, Assignment> */
-    #[ORM\OneToMany(targetEntity: Assignment::class, mappedBy: 'job', orphanRemoval: true)]
-    private Collection $assignments;
+    #[ORM\Column(length: 20, enumType: JobStatus::class)]
+    private ?JobStatus $status = null;
+
+    #[ORM\OneToOne(mappedBy: 'job', targetEntity: JobAssignment::class, cascade: ['persist', 'remove'])]
+    private ?JobAssignment $assignment = null;
+
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
+    private ?\DateTimeImmutable $createdAt = null;
 
     public function __construct()
     {
-        $this->assignments = new ArrayCollection();
+        $this->status = JobStatus::OPEN;
+        $this->createdAt = new \DateTimeImmutable();
     }
 
     public function getId(): ?int
@@ -35,7 +44,7 @@ class Job
         return $this->id;
     }
 
-    public function getTitle(): string
+    public function getTitle(): ?string
     {
         return $this->title;
     }
@@ -46,7 +55,18 @@ class Job
         return $this;
     }
 
-    public function getStatus(): JobStatus
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): static
+    {
+        $this->description = $description;
+        return $this;
+    }
+
+    public function getStatus(): ?JobStatus
     {
         return $this->status;
     }
@@ -57,25 +77,28 @@ class Job
         return $this;
     }
 
-    /**
-     * @return Collection<int, Assignment>
-     */
-    public function getAssignments(): Collection
+    public function getAssignment(): ?JobAssignment
     {
-        return $this->assignments;
+        return $this->assignment;
     }
 
-    public function addAssignment(Assignment $assignment): static
+    public function setAssignment(?JobAssignment $assignment): static
     {
-        if (!$this->assignments->contains($assignment)) {
-            $this->assignments->add($assignment);
+        $this->assignment = $assignment;
+        if ($assignment !== null && $assignment->getJob() !== $this) {
             $assignment->setJob($this);
         }
         return $this;
     }
 
-    public function isOpen(): bool
+    public function getCreatedAt(): ?\DateTimeImmutable
     {
-        return $this->status === JobStatus::OPEN;
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    {
+        $this->createdAt = $createdAt;
+        return $this;
     }
 }
